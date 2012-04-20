@@ -6,4 +6,5 @@
 !/.gitignore
 !/.gitignore-global
 !/.screenrc
+!/.ssh/config
 /.config.d/bash/private.sh
