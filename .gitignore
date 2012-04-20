@@ -1,5 +1,8 @@
 /*
+!.bashrc
+!.config.d/
+!.gitconfig
 !.gitignore
 !.gitignore-global
-!.gitconfig
 !.screenrc
+.config.d/bash/private.sh
