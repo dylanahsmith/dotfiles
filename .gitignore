@@ -1,8 +1,9 @@
 /*
-!.bashrc
-!.config.d/
-!.gitconfig
-!.gitignore
-!.gitignore-global
-!.screenrc
-.config.d/bash/private.sh
+!/.bashrc
+!/.config.d/
+!/.irbrc
+!/.gitconfig
+!/.gitignore
+!/.gitignore-global
+!/.screenrc
+/.config.d/bash/private.sh
