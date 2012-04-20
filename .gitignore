@@ -2,10 +2,12 @@
 !/.bash_profile
 !/.bashrc
 !/.config.d/
-!/.irbrc
 !/.gitconfig
 !/.gitignore
 !/.gitignore-global
+!/.irbrc
 !/.screenrc
 !/.ssh/config
+!/bin/bto.rb
+!/bin/to.rb
 /.config.d/bash/private.sh
