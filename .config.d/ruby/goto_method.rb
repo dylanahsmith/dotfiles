@@ -14,6 +14,7 @@ class Object
     else
       [x.__file__, x.__line__]
     end
+    raise(ArgumentError, 'native Method') unless file && line
     system(ENV['EDITOR'] || 'vim', '-n', "+#{line}", file)
   end
 end
