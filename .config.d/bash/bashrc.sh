@@ -47,7 +47,7 @@ alias es-delete='es-request DELETE'
 alias es-head='es-request HEAD'
 
 gitrepo-url() {
-git config remote.origin.url | sed -En 's/^git(@|:\/\/)([a-zA-Z0-9.]+)(:|\/)(.+)\/(.+).git$/http:\/\/\2\/\4\/\5.git/p'
+  git config remote.origin.url | sed -En 's/^git(@|:\/\/)([a-zA-Z0-9.]+)(:|\/)(.+)\/(.+).git$/http:\/\/\2\/\4\/\5.git/p'
 }
 
 ghg() {
