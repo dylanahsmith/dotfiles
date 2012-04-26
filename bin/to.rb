@@ -33,40 +33,95 @@
 #
 # ~$ to railsapp
 # ~/src/railsapp$ to controllers
-# ~/src/railsapp/app/controllers$ to migrate
+# ~/src/railsapp/app/controllers$ to Desktop
+# ~/Desktop$ to railsapp migrate
 # ~/src/railsapp/db/migrate$ to
-# ~/src/railsapp$ to Desktop
-# ~/Desktop$ to ruby
+# ~/src/railsapp$ to ruby
 # ~/src/ruby$
 
 require 'pathname'
+require 'optparse'
+
+USAGE = "to [DIR...]"
 
 def dirs_from_config(dir)
   paths = dir.join('.to-dirs').readlines
   paths.map { |p| dir.join(p.strip) }
 end
 
-default_dir=nil
+def to_dirs
+  default_dir=nil
 
-configdirs = []
+  configdirs = []
 
-homedir = Pathname.new(ENV['HOME'])
-configdirs += dirs_from_config(homedir) if homedir.join('.to-dirs').file?
+  homedir = Pathname.new(ENV['HOME'])
+  configdirs += dirs_from_config(homedir) if homedir.join('.to-dirs').file?
 
-dir = Pathname.pwd
-until dir.root?
-  if dir != homedir && dir.join('.to-dirs').file?
-    default_dir ||= dir
-    configdirs += dirs_from_config(dir)
+  dir = Pathname.pwd
+  until dir.root?
+    if dir != homedir && dir.join('.to-dirs').file?
+      default_dir ||= dir
+      configdirs += dirs_from_config(dir)
+    end
+    dir = dir.parent
   end
-  dir = dir.parent
+  configdirs
 end
 
-cdpath = configdirs.join(':')
-args = ARGV.map(&:inspect).join(' ')
+def find_dir(dir)
+  to_dirs.each do |path|
+    if (absdir = path.join(dir)).directory?
+      Dir.chdir absdir
+      return absdir
+    end
+  end
+  nil
+end
 
-if ARGV.first
-  puts "CDPATH=#{cdpath.inspect} cd -P #{args}"
+def jump_to(dir)
+  if found_dir = find_dir(dir)
+    Dir.chdir found_dir
+    return found_dir
+  else
+    nil
+  end
+end
+
+help = false
+complete = false
+
+OptionParser.new do |opts|
+  opts.banner = USAGE
+  opts.on('--complete') { complete = true }
+  opts.on('-h', '--help') { $stderr.puts opts and exit }
+end.parse!
+
+final_dir = ARGV.pop
+ARGV.each do |dir|
+  unless jump_to dir
+    break if complete
+    abort "to: #{dir}: No such directory on search path"
+  end
+end
+
+if complete
+  compword = final_dir
+  pattern = compword
+  pattern += '*' unless compword.end_with?('*')
+  pattern += '/' unless compword.end_with?('/')
+
+  candidates = []
+  to_dirs.each do |path|
+    Dir.chdir(path) do
+      candidates += Dir.glob(pattern).map{ |d| d.chomp('/') }
+    end
+  end
+  puts candidates
+  exit
+end
+
+if found_dir = find_dir(final_dir)
+  puts "cd #{found_dir.expand_path.to_s.inspect}"
 else
-  puts "cd #{default_dir.to_s.inspect}"
+  abort "to: #{final_dir}: No such directory on search path"
 end

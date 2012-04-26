@@ -31,6 +31,11 @@ export GIT_EDITOR=$EDITOR
 alias be='bundle exec'
 
 to() { eval "$(to.rb "$@")"; }
+_to() {
+  COMPREPLY=( $(to.rb --complete "${COMP_WORDS[@]:1:$COMP_CWORD}") )
+}
+complete -F _to to
+
 bto() { eval "$(bto.rb "$@")"; }
 
 if { ! type jsonpretty && type ruby; } >/dev/null 2>&1; then
