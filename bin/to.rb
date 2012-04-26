@@ -52,24 +52,27 @@ end
 def to_dirs
   default_dir=nil
 
-  configdirs = []
+  config_dirs = []
 
   homedir = Pathname.new(ENV['HOME'])
-  configdirs += dirs_from_config(homedir) if homedir.join('.to-dirs').file?
+  config_dirs += dirs_from_config(homedir) if homedir.join('.to-dirs').file?
 
   dir = Pathname.pwd
   until dir.root?
     if dir != homedir && dir.join('.to-dirs').file?
       default_dir ||= dir
-      configdirs += dirs_from_config(dir)
+      config_dirs += dirs_from_config(dir)
     end
     dir = dir.parent
   end
-  configdirs
+  default_dir ||= homedir
+  [config_dirs, default_dir]
 end
 
 def find_dir(dir)
-  to_dirs.each do |path|
+  config_dirs, default_dir = to_dirs
+  return default_dir unless dir
+  config_dirs.each do |path|
     if (absdir = path.join(dir)).directory?
       Dir.chdir absdir
       return absdir
@@ -111,7 +114,7 @@ if complete
   pattern += '/' unless compword.end_with?('/')
 
   candidates = []
-  to_dirs.each do |path|
+  to_dirs.first.each do |path|
     Dir.chdir(path) do
       candidates += Dir.glob(pattern).map{ |d| d.chomp('/') }
     end
