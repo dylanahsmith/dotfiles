@@ -81,9 +81,9 @@ def find_dir(dir)
   nil
 end
 
-def jump_to(dir)
+def jump_to(dir, &block)
   if found_dir = find_dir(dir)
-    Dir.chdir found_dir
+    Dir.chdir(found_dir, &block)
     return found_dir
   else
     nil
@@ -110,13 +110,18 @@ end
 if complete
   compword = final_dir
   pattern = compword
-  pattern += '*' unless compword.end_with?('*')
-  pattern += '/' unless compword.end_with?('/')
+  pattern += '*' unless pattern.end_with?('*')
+  pattern += '/' unless pattern.end_with?('/')
 
   candidates = []
   to_dirs.first.each do |path|
     Dir.chdir(path) do
-      candidates += Dir.glob(pattern).map{ |d| d.chomp('/') }
+      candidates += Dir.glob(pattern)
+    end
+  end
+  if candidates.size == 1
+    jump_to(candidates.first) do
+      candidates += Dir.glob('*/').map{ |d| candidates.first + d }
     end
   end
   puts candidates
