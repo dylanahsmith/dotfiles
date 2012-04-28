@@ -1,21 +1,23 @@
 class Object
   def g(sym)
-    kind_of?(Class) ? gim(sym) : gm(sym)
+    (kind_of?(Class) ? gim(sym) : gm(sym)).goto
   end
   def gm(sym)
-    __goto_method(method(sym))
+    method(sym).goto
   end
   def gim(sym)
-    __goto_method(instance_method(sym))
+    instance_method(sym).goto
   end
-  def __goto_method(x)
-    file, line = if x.respond_to?(:source_location)
-      x.source_location
+end
+
+class Method
+  def goto
+    file, line = if respond_to?(:source_location)
+      source_location
     else
-      [x.__file__, x.__line__]
+      [__file__, __line__]
     end
     raise(ArgumentError, 'native Method') unless file && line
     system(ENV['EDITOR'] || 'vim', '-n', "+#{line}", file)
   end
 end
-
