@@ -54,7 +54,7 @@ def to_dirs
 
   config_dirs = []
 
-  homedir = Pathname.new(ENV['HOME'])
+  homedir = Pathname.new(Dir.home)
   config_dirs += dirs_from_config(homedir) if homedir.join('.to-dirs').file?
 
   dir = Pathname.pwd
