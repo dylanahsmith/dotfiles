@@ -6,6 +6,7 @@
 !/.gitignore
 !/.gitignore-global
 !/.irbrc
+!/.pryrc
 !/.screenrc
 !/.ssh/config
 !/bin/bto.rb
