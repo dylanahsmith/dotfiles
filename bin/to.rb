@@ -115,6 +115,7 @@ if complete
 
   candidates = []
   to_dirs.first.each do |path|
+    next unless path.directory?
     Dir.chdir(path) do
       candidates += Dir.glob(pattern)
     end
