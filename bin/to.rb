@@ -55,7 +55,6 @@ def to_dirs
   config_dirs = []
 
   homedir = Pathname.new(Dir.home)
-  config_dirs += dirs_from_config(homedir) if homedir.join('.to-dirs').file?
 
   dir = Pathname.pwd
   until dir.root?
@@ -65,6 +64,7 @@ def to_dirs
     end
     dir = dir.parent
   end
+  config_dirs += dirs_from_config(homedir) if homedir.join('.to-dirs').file?
   default_dir ||= homedir
   [config_dirs, default_dir]
 end
