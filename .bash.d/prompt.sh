@@ -39,9 +39,16 @@ fi
 error_in_prompt='$(err=$?; [ $err -eq 0 ] || echo "\[\e[01;31m\]$err:")'
 jobs_in_prompt='$(count=$(jobs -p | wc -w | tr -d " "); [ $count -le 0 ] || echo "\[\e[01;33m\]$count:")'
 git_in_prompt='$(__git_ps1 "\[\e[1;30m\](%s)")'
+set_term_title='\[\e]0;\w\a\]'
 if [ "$TERM" = screen ]; then
     screen_win_in_prompt='W$WINDOW:'
 fi
-PS1="\[\e]0;\w\a\]\[$normal\]${force_newline}${error_in_prompt}${jobs_in_prompt}\[$normal\]${screen_win_in_prompt}\[\e[1;32m\]\u${hostname_in_prompt}\[$normal\]:\[\e[1;34m\]\w$git_in_prompt\[$normal\]\$ "
-unset force_newline error_in_prompt jobs_in_prompt \
-      screen_win_in_prompt git_in_prompt hostname_in_prompt normal
+PS1="${set_term_title}\[$normal\]${force_newline}${error_in_prompt}${jobs_in_prompt}\[$normal\]${screen_win_in_prompt}\[\e[1;32m\]\u${hostname_in_prompt}\[$normal\]:\[\e[1;34m\]\w$git_in_prompt\[$normal\]\$ "
+unset error_in_prompt \
+      force_newline \
+      git_in_prompt \
+      hostname_in_prompt \
+      jobs_in_prompt \
+      normal \
+      screen_win_in_prompt \
+      set_term_title
