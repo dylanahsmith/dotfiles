@@ -26,12 +26,15 @@ __set_err() { return $1; }
 
 normal="$(tput sgr0)"
 
-# force_newline must preserve error status for error_in_prompt.
-force_newline='$(
-  err=$?
-  [ "$(__cursor_column)" -eq 1 ] || printf "\[\e[01;31m\]\n\$"
-  __set_err $err
-)'
+# hangs on read if `tput u7` isn't supported by the terminal
+if [ x"$(tput u7)" != x"" ]; then
+  # force_newline must preserve error status for error_in_prompt.
+  force_newline='$(
+    err=$?
+    [ "$(__cursor_column)" -eq 1 ] || printf "\[\e[01;31m\]\n\$"
+    __set_err $err
+  )'
+fi
 
 error_in_prompt='$(err=$?; [ $err -eq 0 ] || echo "\[\e[01;31m\]$err:")'
 jobs_in_prompt='$(count=$(jobs -p | wc -w | tr -d " "); [ $count -le 0 ] || echo "\[\e[01;33m\]$count:")'
