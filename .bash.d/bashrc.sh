@@ -1,6 +1,15 @@
 [ -z "$PS1" ] && return
 
-export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/opt/X11/bin:/usr/X11/bin"
+PATH="$HOME/bin"
+PATH="$PATH:/usr/local/bin"
+PATH="$PATH:/usr/local/sbin"
+PATH="$PATH:/usr/bin"
+PATH="$PATH:/usr/sbin"
+PATH="$PATH:/bin"
+PATH="$PATH:/sbin"
+PATH="$PATH:/opt/X11/bin"
+PATH="$PATH:/usr/X11/bin"
+export PATH
 
 HISTCONTROL=ignoredups:ignorespace
 
