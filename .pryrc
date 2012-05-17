@@ -1,1 +1,1 @@
-require File.expand_path("~/.config.d/ruby/all")
+require File.expand_path("~/.irb.d/all")

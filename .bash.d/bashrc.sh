@@ -64,9 +64,9 @@ alias ri='ri -f ansi'
 alias grep='grep --color=auto'
 
 platform=`uname -s`
-[ -f "$HOME/.config.d/bash/${platform}.sh" ] && . "$HOME/.config.d/bash/${platform}.sh"
+[ -f "$HOME/.bash.d/${platform}.sh" ] && . "$HOME/.bash.d/${platform}.sh"
 unset platform
 
-. ~/.config.d/bash/prompt.sh
-. ~/.config.d/bash/private.sh
-. ~/.config.d/bash/rbenv.sh
+. ~/.bash.d/prompt.sh
+. ~/.bash.d/private.sh
+. ~/.bash.d/rbenv.sh

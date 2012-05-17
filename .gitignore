@@ -1,14 +1,15 @@
 /*
+!/.bash.d/
 !/.bash_profile
 !/.bashrc
-!/.config.d/
 !/.gitconfig
 !/.gitignore
 !/.gitignore-global
+!/.irb.d/
 !/.irbrc
 !/.pryrc
 !/.screenrc
 !/.ssh/config
 !/bin/bto.rb
 !/bin/to.rb
-/.config.d/bash/private.sh
+/.bash.d/private.sh

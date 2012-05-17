@@ -8,4 +8,4 @@ end
 IRB.conf[:USE_READLINE] = true
 IRB.conf[:SAVE_HISTORY] = 1000
 
-require File.expand_path("~/.config.d/ruby/all")
+require File.expand_path("~/.irb.d/all")

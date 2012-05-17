@@ -1,1 +1,1 @@
-. ~/.config.d/bash/bashrc.sh
+. ~/.bash.d/bashrc.sh
