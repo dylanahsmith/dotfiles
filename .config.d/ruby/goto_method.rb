@@ -10,6 +10,16 @@ class Object
   end
 end
 
+def set_term_title(title=nil)
+  if title.nil?
+    title = Dir.pwd
+    if title.starts_with(Dir.home + '/') || title == Dir.home
+      title = title[Dir.home.size..-1]
+    end
+  end
+  system("printf", '\033];' + title + '\a')
+end
+
 class Method
   def goto
     file, line = if respond_to?(:source_location)
@@ -19,5 +29,7 @@ class Method
     end
     raise(ArgumentError, 'native Method') unless file && line
     system(ENV['EDITOR'] || 'vim', '-n', "+#{line}", file)
+
+    set_term_title
   end
 end
