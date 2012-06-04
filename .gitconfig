@@ -4,6 +4,7 @@
 [github]
 	user = dylanahsmith
 [alias]
+	flog = log --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
 	plog = log --first-parent --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
 	llog = log --graph --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
 	diffstat = !git diff --stat=$COLUMNS,$COLUMNS
