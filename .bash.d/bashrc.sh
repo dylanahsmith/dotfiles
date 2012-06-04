@@ -47,9 +47,7 @@ complete -F _to to
 
 bto() { eval "$(bto.rb "$@")"; }
 
-if { ! type jsonpretty && type ruby; } >/dev/null 2>&1; then
-  jsonpretty() { ruby -rjson -e "puts JSON.pretty_generate(JSON.parse(STDIN.read))"; }
-fi
+alias curl='curl -s -S'
 
 es-request() {
   curl -sS -X"$1" "http://localhost:9200/$2" -d "$3" | jsonpretty

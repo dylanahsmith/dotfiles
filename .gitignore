@@ -12,4 +12,5 @@
 !/.ssh/config
 !/bin/bto.rb
 !/bin/to.rb
+!/bin/jsonpretty
 /.bash.d/private.sh
