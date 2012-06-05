@@ -8,15 +8,28 @@ PATH="$PATH:/usr/sbin"
 PATH="$PATH:/bin"
 PATH="$PATH:/sbin"
 PATH="$PATH:/opt/X11/bin"
-PATH="$PATH:/usr/X11/bin"
+[ -d '/opt/X11/bin' ] && PATH="$PATH:/opt/X11/bin"
+[ -d '/usr/X11/bin' ] && PATH="$PATH:/usr/X11/bin"
+[ -d '/usr/games' ] && PATH="$PATH:/usr/games"
 export PATH
 
+shopt -s histappend
 HISTCONTROL=ignoredups:ignorespace
+HISTSIZE=1000
+HISTFILESIZE=2000
 
 shopt -s checkwinsize
 export COLUMNS LINES
 
+# less options
+# -R   output color escape sequences
+# -S   chop long lines
+# -M   long prompt
 export LESS="RSM"
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
 export PYTHONSTARTUP=$HOME/.pythonrc.py
 export NODE_PATH='/usr/local/lib/node_modules'
 
@@ -69,11 +82,13 @@ ghg() {
 # use colours
 alias ri='ri -f ansi'
 alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 
 platform=`uname -s`
 [ -f "$HOME/.bash.d/${platform}.sh" ] && . "$HOME/.bash.d/${platform}.sh"
 unset platform
 
 . ~/.bash.d/prompt.sh
-. ~/.bash.d/private.sh
+[ -f "$HOME/.bash.d/local.sh" ] && . ~/.bash.d/local.sh
 . ~/.bash.d/rbenv.sh

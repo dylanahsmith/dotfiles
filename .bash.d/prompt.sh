@@ -1,3 +1,7 @@
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    chroot_in_prompt="($(cat /etc/debian_chroot))"
+fi
+
 if [ "$SSH_CONNECTION" != "" ]; then
     hostname_in_prompt="@\h"
 fi
@@ -24,6 +28,17 @@ __cursor_column() {
 
 __set_err() { return $1; }
 
+# From "Color Handling" section of terminfo(5):
+#   COLOR   VALUE       RGB
+#   black     0     0,  0,  0
+#   red       1     max,0,  0
+#   green     2     0,  max,0
+#   yellow    3     max,max,0
+#   blue      4     0,  0,  max
+#   magenta   5     max,0,  max
+#   cyan      6     0,  max,max
+#   white     7     max,max,max
+# For xterm "\e[1;3${i}m" = `tput bold; tput setaf $i`
 normal="$(tput sgr0)"
 
 # hangs on read if `tput u7` isn't supported by the terminal
@@ -39,7 +54,7 @@ fi
 error_in_prompt='$(err=$?; [ $err -eq 0 ] || echo "\[\e[01;31m\]$err:")'
 jobs_in_prompt='$(count=$(jobs -p | wc -w | tr -d " "); [ $count -le 0 ] || echo "\[\e[01;33m\]$count:")'
 git_in_prompt='$(__git_ps1 "\[\e[1;30m\](%s)")'
-set_term_title='\[\e]0;\w\a\]'
+set_term_title='\[\e]0;${chroot_in_prompt}\w\a\]'
 if [ "$TERM" = screen ]; then
     screen_win_in_prompt="\[$normal\]W$WINDOW:"
 fi
