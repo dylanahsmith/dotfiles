@@ -8,6 +8,7 @@
 !/.irb.d/
 !/.irbrc
 !/.pryrc
+!/.pythonrc.py
 !/.screenrc
 !/.ssh/config
 !/bin/bto.rb
