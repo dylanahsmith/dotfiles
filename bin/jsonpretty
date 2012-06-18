@@ -3,5 +3,9 @@
 require 'json'
 
 input = STDIN.read
-output = JSON.pretty_generate(JSON.parse(input)) rescue input
-puts output
+begin
+  puts JSON.pretty_generate(JSON.parse(input))
+rescue
+  puts input
+  exit 1
+end
