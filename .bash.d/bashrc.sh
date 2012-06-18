@@ -52,12 +52,6 @@ export GIT_EDITOR=$EDITOR
 
 alias be='bundle exec'
 
-to() { eval "$(to.rb "$@")"; }
-_to() {
-  COMPREPLY=( $(to.rb --complete "${COMP_WORDS[@]:1:$COMP_CWORD}") )
-}
-complete -F _to to
-
 bto() { eval "$(bto.rb "$@")"; }
 
 alias curl='curl -s -S'
@@ -89,6 +83,7 @@ platform=`uname -s`
 [ -f "$HOME/.bash.d/${platform}.sh" ] && . "$HOME/.bash.d/${platform}.sh"
 unset platform
 
+. ~/.bash.d/to.sh
 . ~/.bash.d/prompt.sh
 [ -f "$HOME/.bash.d/local.sh" ] && . ~/.bash.d/local.sh
 . ~/.bash.d/rbenv.sh
