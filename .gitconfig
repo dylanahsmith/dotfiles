@@ -4,6 +4,7 @@
 [github]
 	user = dylanahsmith
 [alias]
+	dlog = log --pretty=format:'%C(yellow)%h %C(bold cyan)%ci %C(bold green)%an%C(bold red)%d%Creset: %s'
 	flog = log --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
 	plog = log --first-parent --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
 	llog = log --graph --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
