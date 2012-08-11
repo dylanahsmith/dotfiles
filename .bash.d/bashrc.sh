@@ -113,4 +113,5 @@ unset platform
 
 . ~/.bash.d/to.sh
 . ~/.bash.d/prompt.sh
+. ~/.bash.d/rubyopt.sh
 [ -f "$HOME/.bash.d/local.sh" ] && . ~/.bash.d/local.sh
