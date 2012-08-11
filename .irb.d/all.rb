@@ -2,6 +2,7 @@
   'goto_method',
   'less',
   'local_methods',
+  'instance_variable_hash',
   'method_inheritence',
   'misc',
   'time',
