@@ -1,8 +1,9 @@
 [
+  'deep_diff',
   'goto_method',
+  'instance_variable_hash',
   'less',
   'local_methods',
-  'instance_variable_hash',
   'method_inheritence',
   'misc',
   'time',
