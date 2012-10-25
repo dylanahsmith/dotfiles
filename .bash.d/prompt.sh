@@ -53,7 +53,9 @@ fi
 
 error_in_prompt='$(err=$?; [ $err -eq 0 ] || echo "\[\e[01;31m\]$err:")'
 jobs_in_prompt='$(count=$(jobs -p | wc -w | tr -d " "); [ $count -le 0 ] || echo "\[\e[01;33m\]$count:")'
-git_in_prompt='$(__git_ps1 "\[\e[1;30m\](%s)")'
+if type __git_ps1 > /dev/null 2>&1; then
+    git_in_prompt='$(__git_ps1 "\[\e[1;30m\](%s)")'
+fi
 if [ "$TERM" != linux ]; then
     set_term_title='\[\e]0;${chroot_in_prompt}\w\a\]'
 fi
