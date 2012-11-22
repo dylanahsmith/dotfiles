@@ -14,6 +14,6 @@ class << self
   alias_method :pp, :pp_with_nil_return
 end
 
-if defined?(Rails) && !Rails.env.nil? && Rails.logger
+if defined?(Rails) && Rails.respond_to?(:env) && !Rails.env.nil? && Rails.logger
   ActiveRecord::Base.logger = Logger.new(STDOUT)
 end
