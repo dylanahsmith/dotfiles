@@ -43,6 +43,7 @@ require 'pathname'
 require 'optparse'
 
 USAGE = "to [DIR...]"
+HOMEDIR = Dir.respond_to?(:home) ? Dir.home : ENV["HOME"]
 
 def dirs_from_config(dir)
   paths = dir.join('.to-dirs').readlines
@@ -54,18 +55,18 @@ def to_dirs
 
   config_dirs = []
 
-  homedir = Pathname.new(Dir.home)
+  home_path = Pathname.new(HOMEDIR)
 
   dir = Pathname.pwd
   until dir.root?
-    if dir != homedir && dir.join('.to-dirs').file?
+    if dir != home_path && dir.join('.to-dirs').file?
       default_dir ||= dir
       config_dirs += dirs_from_config(dir)
     end
     dir = dir.parent
   end
-  config_dirs += dirs_from_config(homedir) if homedir.join('.to-dirs').file?
-  default_dir ||= homedir
+  config_dirs += dirs_from_config(home_path) if home_path.join('.to-dirs').file?
+  default_dir ||= home_path
   [config_dirs, default_dir]
 end
 
