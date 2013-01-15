@@ -8,6 +8,8 @@ PATH="$PATH:/bin"
 PATH="$PATH:/sbin"
 [ -d '/opt/X11/bin' ] && PATH="$PATH:/opt/X11/bin"
 [ -d '/usr/X11/bin' ] && PATH="$PATH:/usr/X11/bin"
+[ -d '/usr/local/share/npm/bin' ] && PATH="$PATH:/usr/local/share/npm/bin"
+[ -d '/usr/local/share/python/' ] && PATH="$PATH:/usr/local/share/python/"
 [ -d '/usr/games' ] && PATH="$PATH:/usr/games"
 . ~/.bash.d/rbenv.sh
 PATH="$HOME/bin:$PATH"
