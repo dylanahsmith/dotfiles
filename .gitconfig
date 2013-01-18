@@ -7,6 +7,7 @@
 	flog = log --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
 	plog = log --first-parent --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
 	llog = log --graph --pretty=format:'%C(yellow)%h %C(bold cyan)%cr %C(bold green)%an%C(bold red)%d%Creset: %s'
+	mylog = log --author='Dylan Smith' --pretty=format:'%C(yellow)%h %C(bold cyan)%cr%Creset: %s'
 	diffstat = !git diff --stat=$COLUMNS,$COLUMNS
 	wdiff = diff --word-diff=color
 [merge]

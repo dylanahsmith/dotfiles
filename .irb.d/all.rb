@@ -4,7 +4,7 @@
   'instance_variable_hash',
   'less',
   'local_methods',
-  'method_inheritence',
+  'method_ancestors',
   'misc',
   'time',
 ].each do |modname|
