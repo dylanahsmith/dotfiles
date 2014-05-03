@@ -2,6 +2,10 @@ def ras
   require 'active_support/all'
 end
 
+def print_filter_stack(controller)
+  puts controller._process_action_callbacks.map(&:filter)
+end
+
 require 'pp'
 
 class << self
@@ -12,8 +16,4 @@ class << self
 
   alias_method :pp_without_nil_return, :pp
   alias_method :pp, :pp_with_nil_return
-end
-
-if defined?(Rails) && Rails.respond_to?(:env) && !Rails.env.nil? && Rails.logger
-  ActiveRecord::Base.logger = Logger.new(STDOUT)
 end
