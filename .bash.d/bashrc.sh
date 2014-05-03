@@ -79,7 +79,14 @@ export GIT_EDITOR=$EDITOR
 
 alias be='bundle exec'
 
-bto() { eval "$(bto.rb "$@")"; }
+bto() {
+  output=`bundle show "$@"`
+  if [ $? -eq 0 ]; then
+      cd "$output"
+  else
+      echo "$output" 2>&1
+  fi
+}
 
 alias curl='curl -s -S'
 
