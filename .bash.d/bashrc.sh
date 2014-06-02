@@ -125,3 +125,4 @@ unset platform
 . ~/.bash.d/rubyopt.sh
 . ~/.bash.d/python.sh
 [ -f "$HOME/.bash.d/local.sh" ] && . ~/.bash.d/local.sh
+true
