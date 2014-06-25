@@ -13,5 +13,6 @@
 !/.ssh/config
 !/bin/bto.rb
 !/bin/to.rb
-!/bin/jsonpretty
+!/bin/prettyjson
+!/bin/prettyxml
 /.bash.d/local.sh

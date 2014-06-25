@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "rexml/document"
+
+REXML::Document.new(STDIN.read).write(indent: 1)
