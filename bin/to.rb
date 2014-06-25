@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env RBENV_VERSION=system ruby
 
 # cd using a project configurable CDPATH.
 
