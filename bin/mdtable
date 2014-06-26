@@ -1,0 +1,28 @@
+#!/usr/bin/env RBENV_VERSION=system ruby
+
+if filename = ARGV.shift
+  abort("usage: #{$0} FILENAME") unless ARGV.empty?
+  lines = File.readlines(filename)
+else
+  STDERR.puts "reading table from standard input..." if STDIN.tty? && STDERR.tty?
+  lines = STDIN.readlines
+end
+
+lines = lines.map(&:chomp)
+rows = lines.map{ |line| line.split("\t") }
+
+# pad columns
+column_count = rows.map(&:size).max
+column_count.times do |i|
+  width = rows.map{ |row| row[i].to_s.size }.max
+  rows.each do |columns|
+    columns[i] = columns[i].to_s.ljust(width)
+  end
+end
+
+rows.map!{ |columns| columns.join(" | ") }
+
+header = rows.shift
+puts header
+puts header.gsub(/[^|]/, "-")
+puts rows

@@ -15,4 +15,5 @@
 !/bin/to.rb
 !/bin/prettyjson
 !/bin/prettyxml
+!/bin/mdtable
 /.bash.d/local.sh
