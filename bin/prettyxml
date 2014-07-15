@@ -1,6 +1,8 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env python
 
-require "rexml/document"
+import sys
+import xml.dom.minidom
 
-indent = 1
-REXML::Document.new(STDIN.read).write($stdout, indent)
+xml = xml.dom.minidom.parse(sys.stdin)
+prettyxml = xml.toprettyxml(indent='  ', encoding='utf-8')
+print(prettyxml)
