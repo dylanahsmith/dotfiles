@@ -50,14 +50,14 @@ def dirs_from_config(dir)
   paths.map { |p| dir.join(p.strip) }
 end
 
-def to_dirs
+def to_dirs(pwd)
   default_dir=nil
 
   config_dirs = []
 
   home_path = Pathname.new(HOMEDIR)
 
-  dir = Pathname.pwd
+  dir = Pathname.new(pwd)
   until dir.root?
     if dir != home_path && dir.join('.to-dirs').file?
       default_dir ||= dir
@@ -70,20 +70,19 @@ def to_dirs
   [config_dirs, default_dir]
 end
 
-def find_dir(dir)
-  config_dirs, default_dir = to_dirs
+def find_dir(dir, pwd)
+  config_dirs, default_dir = to_dirs(pwd)
   return default_dir unless dir
   config_dirs.each do |path|
     if (absdir = path.join(dir)).directory?
-      Dir.chdir absdir
       return absdir
     end
   end
   nil
 end
 
-def jump_to(dir, &block)
-  if found_dir = find_dir(dir)
+def jump_to(dir, pwd, &block)
+  if found_dir = find_dir(dir, pwd)
     Dir.chdir(found_dir, &block)
     return found_dir
   else
@@ -100,10 +99,11 @@ OptionParser.new do |opts|
   opts.on('-h', '--help') { $stderr.puts opts and exit }
 end.parse!
 
+pwd = ENV['PWD']
 final_dir = ARGV.pop
 ARGV.each do |dir|
-  unless jump_to dir
-    break if complete
+  unless pwd = find_dir(dir, pwd)
+    exit if complete
     abort "to: #{dir}: No such directory on search path"
   end
 end
@@ -115,14 +115,15 @@ if complete
   pattern += '/' unless pattern.end_with?('/')
 
   candidates = []
-  to_dirs.first.each do |path|
+  config_dirs = to_dirs(pwd).first
+  config_dirs.each do |path|
     next unless path.directory?
     Dir.chdir(path) do
       candidates += Dir.glob(pattern)
     end
   end
   if candidates.size == 1
-    jump_to(candidates.first) do
+    jump_to(candidates.first, pwd) do
       candidates += Dir.glob('*/').map{ |d| candidates.first + d }
     end
   end
@@ -130,7 +131,7 @@ if complete
   exit
 end
 
-if found_dir = find_dir(final_dir)
+if found_dir = find_dir(final_dir, pwd)
   puts "cd #{found_dir.expand_path.to_s.inspect}"
 else
   abort "to: #{final_dir}: No such directory on search path"
