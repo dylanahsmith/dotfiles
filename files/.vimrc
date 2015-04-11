@@ -1,4 +1,5 @@
-if filereadable(expand("~/.vim/autoload/pathogen.vim"))
+if filereadable(expand("~/.vim/bundle/vim-pathogen/autoload/pathogen.vim"))
+  runtime bundle/vim-pathogen/autoload/pathogen.vim
   call pathogen#infect()
 end
 set nocompatible
