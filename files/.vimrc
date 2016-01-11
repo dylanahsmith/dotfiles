@@ -81,7 +81,7 @@ endif
 if has("autocmd")
   if has("ruby")
     function SetTitle()
-      ruby system("printf '\033];#{VIM::evaluate('expand("%:t")')}\a'")
+      ruby system("printf '\033];#{VIM::evaluate('expand("%:t")')} [#{`tty | cut -d '/' -f 3`.chomp}]\a'")
     endfunction
     auto BufEnter * call SetTitle()
     auto BufFilePre * call SetTitle()
