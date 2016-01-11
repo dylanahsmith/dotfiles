@@ -1,4 +1,4 @@
-#!/usr/bin/env RBENV_VERSION=system ruby
+#!/usr/bin/env ruby
 
 if filename = ARGV.shift
   abort("usage: #{$0} FILENAME") unless ARGV.empty?
