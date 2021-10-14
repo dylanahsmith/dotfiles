@@ -6,9 +6,11 @@ elif type brew > /dev/null 2>&1; then
   brew install stow
 fi
 
-# For spin setup
-if [ -f ~/.gitconfig -a ! -L ~/.gitconfig -a ! -f ~/.gitconfig-local ]; then
-  mv -n ~/.gitconfig ~/.gitconfig-local
+if [ $SPIN ]; then
+  # Move the generated .gitconfig, but only once
+  if [ -f ~/.gitconfig -a ! -L ~/.gitconfig -a ! -f ~/.gitconfig-local ]; then
+    mv -n ~/.gitconfig ~/.gitconfig-local
+  fi
 fi
 
 cd ~/dotfiles
