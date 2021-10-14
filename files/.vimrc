@@ -10,6 +10,7 @@ set number
 set ruler
 set showcmd
 set background=dark
+set noswapfile
 
 " Hide gui toolbar
 set guioptions-=T
@@ -61,7 +62,7 @@ if has("user_commands")
   command! -nargs=1 UseSpaces set expandtab softtabstop=<args> shiftwidth=<args>
   command! -nargs=1 UseTabs set noexpandtab tabstop=<args> softtabstop=<args> shiftwidth=<args>
   command! -nargs=1 UseMixed set noexpandtab tabstop=8 softtabstop=<args> shiftwidth=<args>
-  UseSpaces 4
+  UseSpaces 2
   command! SudoSave execute 'w !sudo tee % > /dev/null'
 
   set list
@@ -78,14 +79,24 @@ if has("autocmd")
 else
   set autoindent
 endif
+
 if has("autocmd")
-  if has("ruby")
-    function SetTitle()
-      ruby system("printf '\033];#{VIM::evaluate('expand("%:t")')} [#{`tty | cut -d '/' -f 3`.chomp}]\a'")
-    endfunction
-    auto BufEnter * call SetTitle()
-    auto BufFilePre * call SetTitle()
-  endif
+  function SetTitle()
+    " TODO: debug incompatible library version error (probably an issue with it using system ruby)
+    if 0 && has("ruby")
+      ruby system("printf '\033];#{VIM::evaluate('expand("%:t")')} [#{File.basename(`tty`.chomp)}]\a'")
+    elseif has("python")
+      python <<PYTHON
+import subprocess
+import os
+import vim
+title = os.path.basename(vim.current.buffer.name)
+subprocess.call(["printf", "\033];" + title + "\a"])
+PYTHON
+    endif
+  endfunction
+  auto BufEnter * call SetTitle()
+  auto BufFilePre * call SetTitle()
 endif
 
 " Change to the directory of the file being edited
@@ -101,3 +112,5 @@ set ttyscroll=3
 set lazyredraw
 
 command! Go !go run %
+
+let g:ruby_indent_assignment_style = 'variable'

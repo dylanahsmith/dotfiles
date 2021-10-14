@@ -6,7 +6,7 @@
   'local_methods',
   'method_ancestors',
   'misc',
-  'time',
+  'perf',
 ].each do |modname|
   require File.join(File.dirname(__FILE__), modname)
 end

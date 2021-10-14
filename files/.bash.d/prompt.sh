@@ -64,9 +64,9 @@ if [ "$TERM" = screen ]; then
 fi
 
 PS1="${set_term_title}\[$normal\]"
-PS1="$PS1${force_newline}"
+#PS1="$PS1${force_newline}"
 PS1="$PS1${error_in_prompt}"
-PS1="$PS1${jobs_in_prompt}"
+#PS1="$PS1${jobs_in_prompt}"
 PS1="$PS1${screen_win_in_prompt}"
 PS1="$PS1\[\e[1;32m\]\u${hostname_in_prompt}"
 PS1="$PS1\[$normal\]:\[\e[1;34m\]\w"

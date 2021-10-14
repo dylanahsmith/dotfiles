@@ -9,10 +9,10 @@ PATH="$PATH:/sbin"
 [ -d '/opt/X11/bin' ] && PATH="$PATH:/opt/X11/bin"
 [ -d '/usr/X11/bin' ] && PATH="$PATH:/usr/X11/bin"
 [ -d '/usr/local/share/npm/bin' ] && PATH="$PATH:/usr/local/share/npm/bin"
-[ -d '/usr/games' ] && PATH="$PATH:/usr/games"
-. ~/.bash.d/rbenv.sh
 PATH="$HOME/bin:$PATH"
 export PATH
+
+shopt -s globstar
 
 shopt -s histappend
 HISTCONTROL=ignoredups:ignorespace
@@ -42,7 +42,6 @@ fi
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-export PYTHONSTARTUP=$HOME/.pythonrc.py
 export NODE_PATH='/usr/local/lib/node_modules'
 
 if type ruby >/dev/null 2>&1; then
@@ -56,8 +55,6 @@ else
   alias float='printf %f\\b'
 fi
 
-pycalc() { python -c "print $*"; }
-
 hexdiff() {
     if [ $# -ne 2 ]; then
         echo "Usage: hexdiff FILE1 FILE2" 1>&2
@@ -67,19 +64,26 @@ hexdiff() {
 }
 
 alias diff='diff -up'
-if [ -x ~/bin/vim ]; then
-  alias vim=~/bin/vim
-  alias vi=~/bin/vim
-  export EDITOR=$HOME/bin/vim
-else
-  export EDITOR=vim
-fi
+
+alias vi='vim'
+export EDITOR=vim
 export GIT_EDITOR=$EDITOR
 
-alias be='bundle exec'
+if type rlwrap >/dev/null 2>&1; then
+  alias d8='rlwrap d8'
+fi
+
+gto() {
+  output=`gem open -e echo "$*"`
+  if [ $? -eq 0 ]; then
+      cd "$output"
+  else
+      echo "$output" 2>&1
+  fi
+}
 
 bto() {
-  output=`bundle show "$@"`
+  output=`bundle info "$*" --path`
   if [ $? -eq 0 ]; then
       cd "$output"
   else
@@ -89,21 +93,59 @@ bto() {
 
 alias curl='curl -s -S'
 
-es-request() {
-  curl -sS -X"$1" "http://localhost:9200/$2" -d "$3" | jsonpretty
-}
-alias es-get='es-request GET'
-alias es-put='es-request PUT'
-alias es-post='es-request POST'
-alias es-delete='es-request DELETE'
-alias es-head='es-request HEAD'
-
 gitrepo-url() {
-  git config remote.origin.url | sed -En 's/^git(@|:\/\/)([a-zA-Z0-9.]+)(:|\/)(.+)\/(.+).git$/http:\/\/\2\/\4\/\5.git/p'
+  git config remote.origin.url | sed -En 's/^(git|https)(@|:\/\/)([a-zA-Z0-9.]+)(:|\/)(.+)\/(.+).git$/https:\/\/\3\/\5\/\6/p'
 }
 
-ghg() {
+ghopen() {
   open "$(gitrepo-url)"
+}
+
+ghpr() {
+  local branch_name=`git rev-parse --abbrev-ref ${1:-HEAD}`
+  if [[ `git config remote.origin.url` == https* && `git config remote.dylan.url` == git* ]]; then
+    branch_name="dylanahsmith:$branch_name"
+  fi
+  open "$(gitrepo-url)/compare/$branch_name"
+}
+
+ghcommit() {
+  open "$(gitrepo-url)/commit/$1"
+}
+
+ghfetchpr() {
+  git fetch origin "pull/$1/head:pull-$1"
+}
+
+ghclone() {
+  git clone "git@github.com:$1.git"
+}
+
+ghaddremote() {
+  local repo_name=`git config remote.origin.url | sed -En 's/^git@github\.com:.+\/(.+).git$/\1/p'`
+  git remote add -f "$1" "https://github.com/$1/$repo_name.git"
+}
+
+ghcheckoutpr() {
+  git fetch origin "pull/$1/head:pull-$1" && git checkout "pull-$1"
+}
+
+git-del-squash-merged() {
+  if [ $# -eq 0 ]; then
+    local orig_branch=`git branch --show-current`
+    local main_branch=`git branch --list master main | cut -c 3- | head -1`
+    if [ -n "$orig_branch" -a "$orig_branch" != "$main_branch" -a "$orig_branch" != main ]; then
+      git rebase -q origin && git checkout -q "$main_branch" && git rebase -q origin && git branch -d "$orig_branch"
+    else
+      echo "Must be used on a non-main branch" 1>&2
+      false
+    fi
+  else
+    local branch
+    for branch in "$@"; do
+      git checkout -q "$branch" && git rebase -q origin && git checkout -q - && git branch -d "$branch"
+    done
+  fi
 }
 
 # use colours
@@ -111,6 +153,9 @@ alias ri='ri -f ansi'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
+# rustup shell setup
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 [ -f /etc/bash_completion ] && . /etc/bash_completion
@@ -121,7 +166,7 @@ unset platform
 
 . ~/.bash.d/to.sh
 . ~/.bash.d/prompt.sh
-. ~/.bash.d/rubyopt.sh
+. ~/.bash.d/ruby.sh
 . ~/.bash.d/android.sh
 . ~/.bash.d/python.sh
 [ -f "$HOME/.bash.d/local.sh" ] && . ~/.bash.d/local.sh

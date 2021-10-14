@@ -2,7 +2,7 @@ begin
   require 'wirble'
   Wirble.init
   Wirble.colorize
-rescue LoadError => err
+rescue LoadError
 end
 
 IRB.conf[:USE_READLINE] = true

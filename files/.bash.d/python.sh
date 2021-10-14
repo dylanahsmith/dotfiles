@@ -6,3 +6,5 @@ fi
 calc() {
     python3 -c "print($*)"
 }
+
+export PYTHONSTARTUP=$HOME/.pythonrc.py

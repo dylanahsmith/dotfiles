@@ -1,7 +1,3 @@
-def ras
-  require 'active_support/all'
-end
-
 def print_filter_stack(controller)
   puts controller._process_action_callbacks.map(&:filter)
 end

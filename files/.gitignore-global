@@ -1,11 +1,7 @@
 .DS_Store
-.DS_Store?
-.Spotlight-V100
-.Trashes
-._*
-Icon?
-Thumbs.db
-ehthumbs.db
 *.swp
 /tags
-/.to-dirs
+.to-dirs
+.byebug_history
+/my-notes
+.vscode
