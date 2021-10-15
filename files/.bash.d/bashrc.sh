@@ -165,9 +165,9 @@ platform=`uname -s`
 unset platform
 
 . ~/.bash.d/to.sh
-. ~/.bash.d/prompt.sh
 . ~/.bash.d/ruby.sh
 . ~/.bash.d/android.sh
 . ~/.bash.d/python.sh
 [ -f "$HOME/.bash.d/local.sh" ] && . ~/.bash.d/local.sh
+. ~/.bash.d/prompt.sh
 true
