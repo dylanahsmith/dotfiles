@@ -1,0 +1,15 @@
+[submodule "files/.vim/bundle/vim-fugitive"]
+	path = files/.vim/bundle/vim-fugitive
+	url = git@github.com:tpope/vim-fugitive.git
+[submodule "files/.vim/bundle/vim-rhubarb"]
+	path = files/.vim/bundle/vim-rhubarb
+	url = https://github.com/tpope/vim-rhubarb.git
+[submodule "files/.vim/bundle/taglist.vim"]
+	path = files/.vim/bundle/taglist.vim
+	url = git@github.com:vim-scripts/taglist.vim.git
+[submodule "files/.vim/bundle/fugitive-googlesource"]
+	path = files/.vim/bundle/fugitive-googlesource
+	url = https://github.com/dylanahsmith/vim-fugitive-googlesource.git
+[submodule "files/.vim/bundle/Coqtail"]
+	path = files/.vim/bundle/Coqtail
+	url = https://github.com/whonore/Coqtail.git
