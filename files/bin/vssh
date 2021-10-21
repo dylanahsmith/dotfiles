@@ -27,4 +27,4 @@ end
 
 cd_dir = Pathname.new("/vagrant").join(pwd.relative_path_from(vagrant_dir)).to_s
 
-exec("ssh", "-F", ssh_config_path.to_s, "-t", "default", "cd #{cd_dir.dump} && bash")
+exec("ssh", "-F", ssh_config_path.to_s, "-t", "default", "cd #{cd_dir.dump} && bash -l")
