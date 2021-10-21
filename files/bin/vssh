@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+
+def find_parent_dir_with(filename, from:)
+  dir = from
+  until dir.root?
+    if dir.join(filename).file?
+      return dir
+    end
+    dir = dir.parent
+  end
+  nil
+end
+
+pwd = Pathname.getwd
+vagrant_dir = find_parent_dir_with("Vagrantfile", from: pwd)
+abort "Not in a vagrant directory" unless vagrant_dir
+
+ssh_config_path = vagrant_dir.join(".vagrant", "ssh-config")
+unless ssh_config_path.file?
+  unless system("vagrant", "ssh-config", out: ssh_config_path.to_s)
+    ssh_config_path.unlink
+    abort
+  end
+end
+
+cd_dir = Pathname.new("/vagrant").join(pwd.relative_path_from(vagrant_dir)).to_s
+
+exec("ssh", "-F", ssh_config_path.to_s, "-t", "default", "cd #{cd_dir.dump} && bash")
