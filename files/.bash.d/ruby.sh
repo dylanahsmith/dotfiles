@@ -21,6 +21,8 @@ rb_backtrace() {
   lldb -p $pid -O 'command script import ~/.lldb/ruby.py' -o rb_backtrace --batch
 }
 
+alias rubydir='ruby -w -e "puts ARGV.flat_map{ |d| Dir[d] }"'
+
 alias be='bundle exec'
 
 # Useful for renaming rails migrations to re-run them

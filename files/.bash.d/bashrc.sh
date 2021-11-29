@@ -12,7 +12,8 @@ PATH="$PATH:/sbin"
 PATH="$HOME/bin:$PATH"
 export PATH
 
-shopt -s globstar
+# Not available in old version of bash (e.g. one preinstalled with MacOS)
+shopt -s globstar 2> /dev/null || true
 
 shopt -s histappend
 HISTCONTROL=ignoredups:ignorespace
