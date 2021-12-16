@@ -15,3 +15,5 @@ fi
 
 cd ~/dotfiles
 stow files
+
+cp -nr defaults/ ~
