@@ -1,0 +1,91 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+def subcmd(*cmd)
+  unless system(*cmd)
+    raise "Failure in subcommand: #{cmd.inspect}"
+  end
+end
+
+def cmd_capture(*cmd)
+  output = IO.popen(*cmd, &:read)
+  unless $?.success?
+    print output
+    raise "Failure in subcommand: #{cmd.inspect}"
+  end
+  output
+end
+
+def default_git_root
+  cmd_capture("git rev-parse --show-toplevel").chomp
+end
+
+def default_backup_dir(git_root)
+  home_dir_prefix = Dir.home + '/'
+  unless git_root.start_with?(home_dir_prefix)
+    abort "Unsupported git root outside of home directory"
+  end
+  home_rel_path = git_root[home_dir_prefix.size, git_root.size - home_dir_prefix.size]
+  backup_dir = "#{Dir.home}/backup/git/#{home_rel_path}"
+end
+
+def remove_prefix(string, prefix)
+  unless string.start_with?(prefix)
+    raise "string #{string.inspect} doesn't start with expected prefix #{prefix.inspect}"
+  end
+  prefix_size = prefix.size
+  string[prefix_size, string.size - prefix_size]
+end
+
+command = ARGV.first
+
+case command
+when nil, "save"
+  git_root = default_git_root
+  backup_dir = default_backup_dir(git_root)
+  default_backup_filename = "#{backup_dir}/thin.bundle"
+
+  FileUtils.mkdir_p(backup_dir)
+
+  # backup remote urls
+  remotes = cmd_capture(["git", "remote"]).lines.map do |remote|
+    remote.chomp!
+    url = cmd_capture(["git", "remote", "get-url", remote]).chomp
+    "git remote add #{remote.inspect} #{url.inspect}\n"
+  end
+  File.write("#{backup_dir}/remotes.sh", remotes.join)
+
+  subcmd("git", "bundle", "create", default_backup_filename, "--branches", "--not", "origin/HEAD")
+when "restore"
+  if ARGV.size < 2 || ARGV.size > 3
+    abort "Usage: git-backup restore DESTINATION_DIRECTORY [BACKUP_DIRECTORY]"
+  end
+
+  git_root = ARGV[1]
+  if File.exist?(git_root)
+    abort "Destination path already exists"
+  end
+  git_root = File.expand_path(git_root)
+
+  backup_dir = ARGV[2] ? File.expand_path(ARGV[2]) : default_backup_dir(git_root)
+  bundle_filename = "#{backup_dir}/thin.bundle"
+  remotes_filename = "#{backup_dir}/remotes.sh"
+  unless File.exist?(bundle_filename)
+    abort "Git backup not found at #{bundle_filename.inspect}"
+  end
+  unless File.exist?(remotes_filename)
+    abort "Git remotes not found at #{remotes_filename.inspect}"
+  end
+
+  subcmd("git", "init", git_root)
+  Dir.chdir(git_root)
+
+  subcmd("/bin/sh", remotes_filename)
+  subcmd("git", "fetch", "origin")
+
+  subcmd("git", "remote", "add", "-f", "--mirror=fetch", "backup", bundle_filename)
+  subcmd("git", "remote", "remove", "backup")
+else
+  abort "unknown command #{command}"
+end
