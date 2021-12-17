@@ -37,3 +37,6 @@ function brew_relaunch() {
 }
 
 alias chrome='"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"'
+
+# temporary workaround for https://github.com/golang/go/issues/49138
+export MallocNanoZone=0
