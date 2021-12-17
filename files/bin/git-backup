@@ -86,6 +86,10 @@ when "restore"
 
   subcmd("git", "remote", "add", "-f", "--mirror=fetch", "backup", bundle_filename)
   subcmd("git", "remote", "remove", "backup")
+  subcmd("git", "remote", "set-head", "origin", "--auto")
+  head_ref = cmd_capture(%w( git rev-parse --abbrev-ref --symbolic-full-name origin)).chomp
+  head_name = remove_prefix(head_ref, "origin/")
+  subcmd("git", "checkout", head_name)
 else
   abort "unknown command #{command}"
 end
