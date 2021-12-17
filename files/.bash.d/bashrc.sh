@@ -1,13 +1,5 @@
 [ -z "$PS1" ] && return
 
-PATH="/usr/local/bin"
-PATH="$PATH:/usr/local/sbin"
-PATH="$PATH:/usr/bin"
-PATH="$PATH:/usr/sbin"
-PATH="$PATH:/bin"
-PATH="$PATH:/sbin"
-[ -d '/opt/X11/bin' ] && PATH="$PATH:/opt/X11/bin"
-[ -d '/usr/X11/bin' ] && PATH="$PATH:/usr/X11/bin"
 [ -d '/usr/local/share/npm/bin' ] && PATH="$PATH:/usr/local/share/npm/bin"
 PATH="$HOME/bin:$PATH"
 export PATH

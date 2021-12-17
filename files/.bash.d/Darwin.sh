@@ -3,6 +3,10 @@ export LSCOLORS="ExGxFxDxCxegedabagacad"
 alias ldd='otool -L'
 alias open-ports='sudo lsof -iTCP -sTCP:LISTEN -P'
 
+if [ "$HOMEBREW_PREFIX" != "" ]; then
+  [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+fi
+
 find() {
   if [ $# -eq 0 -o x"${1:0:1}" = x"-" ]; then
     command find . "$@"
