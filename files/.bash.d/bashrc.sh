@@ -66,6 +66,8 @@ if type rlwrap >/dev/null 2>&1; then
   alias d8='rlwrap d8'
 fi
 
+alias devgo="$HOME/src/go/bin/go"
+
 gto() {
   output=`gem open -e echo "$*"`
   if [ $? -eq 0 ]; then
