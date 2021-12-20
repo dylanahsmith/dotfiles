@@ -14,6 +14,7 @@ if [ $SPIN ]; then
 fi
 
 cd ~/dotfiles
+git submodule update --init --recursive
 stow files
 
 cp -nr defaults/ ~
