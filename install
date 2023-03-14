@@ -3,7 +3,7 @@
 set -xe
 
 if type apt-get > /dev/null 2>&1; then
-  sudo apt-get install -y stow
+  sudo apt-get install -y stow exuberant-ctags
 elif type brew > /dev/null 2>&1; then
   brew install stow
 fi
