@@ -1,1 +1,0 @@
-. ~/.bash.d/bashrc.sh
