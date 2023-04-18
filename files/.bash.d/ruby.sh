@@ -18,7 +18,7 @@ rb_backtrace() {
     echo "usage: rb_backtrace PID"
     return 1
   fi
-  lldb -p $pid -O 'command script import ~/.lldb/ruby.py' -o rb_backtrace --batch
+  lldb -p $pid -O 'command script import ~/.lldbinit.d/ruby.py' -o rb_backtrace --batch
 }
 
 alias rubydir='ruby -w -e "puts ARGV.flat_map{ |d| Dir[d] }"'
