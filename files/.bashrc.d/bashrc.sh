@@ -156,13 +156,13 @@ alias egrep='egrep --color=auto'
 [ -f /etc/bash_completion ] && . /etc/bash_completion
 
 platform=`uname -s`
-[ -f "$HOME/.bash.d/${platform}.sh" ] && . "$HOME/.bash.d/${platform}.sh"
+[ -f "$HOME/.bashrc.d/${platform}.sh" ] && . "$HOME/.bashrc.d/${platform}.sh"
 unset platform
 
-. ~/.bash.d/to.sh
-. ~/.bash.d/ruby.sh
-. ~/.bash.d/android.sh
-. ~/.bash.d/python.sh
-[ -f "$HOME/.bash.d/local.sh" ] && . ~/.bash.d/local.sh
-. ~/.bash.d/prompt.sh
+. ~/.bashrc.d/to.sh
+. ~/.bashrc.d/ruby.sh
+. ~/.bashrc.d/android.sh
+. ~/.bashrc.d/python.sh
+[ -f "$HOME/.bashrc.d/local.sh" ] && . ~/.bashrc.d/local.sh
+. ~/.bashrc.d/prompt.sh
 true

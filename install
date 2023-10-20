@@ -12,8 +12,8 @@ cd ~/dotfiles
 git submodule update --init --recursive
 stow files
 
-if ! grep -q '^. ~/.bash.d/bashrc.sh$' ~/.bashrc; then
-  printf '\n. ~/.bash.d/bashrc.sh\n' >> ~/.bashrc
+if ! grep -q '^. ~/.bashrc.d/bashrc.sh$' ~/.bashrc; then
+  printf '\n. ~/.bashrc.d/bashrc.sh\n' >> ~/.bashrc
 fi
 
 cp -nr defaults/ ~
