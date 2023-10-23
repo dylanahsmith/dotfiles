@@ -1,7 +1,3 @@
-[ -d ~/bin ] && PATH="$HOME/bin:$PATH"
-[ -d ~/.local/bin ] && PATH="$HOME/.local/bin:$PATH"
-export PATH
-
 # less options
 # -R   output color escape sequences
 # -S   chop long lines
