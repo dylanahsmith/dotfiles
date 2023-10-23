@@ -21,8 +21,8 @@ cd "$repo_dir"
 git submodule update --init --recursive
 stow --target="$HOME" files
 
+cp -nr defaults/.[a-z]* ~
+
 if ! grep -q '^. ~/.bashrc.d/.all.sh$' ~/.bashrc; then
   printf '\n. ~/.bashrc.d/.all.sh\n' >> ~/.bashrc
 fi
-
-cp -nr defaults/* defaults/.[a-z]* ~

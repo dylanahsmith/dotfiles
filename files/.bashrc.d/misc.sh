@@ -1,6 +1,5 @@
-[ -z "$PS1" ] && return
-
-PATH="$HOME/bin:$PATH"
+[ -d ~/bin ] && PATH="$HOME/bin:$PATH"
+[ -d ~/.local/bin ] && PATH="$HOME/.local/bin:$PATH"
 export PATH
 
 # less options
@@ -112,6 +111,7 @@ git-del-squash-merged() {
 }
 
 # use colours
+alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
