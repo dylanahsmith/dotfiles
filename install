@@ -25,4 +25,4 @@ if ! grep -q '^. ~/.bashrc.d/.all.sh$' ~/.bashrc; then
   printf '\n. ~/.bashrc.d/.all.sh\n' >> ~/.bashrc
 fi
 
-cp -nr defaults/ ~
+cp -nr defaults/* defaults/.[a-z]* ~
