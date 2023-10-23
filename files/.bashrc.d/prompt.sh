@@ -2,7 +2,7 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     chroot_in_prompt="($(cat /etc/debian_chroot))"
 fi
 
-if [ "$SSH_CONNECTION" != "" ]; then
+if [ "$SSH_CONNECTION" != "" -o "$container" != "" ]; then
     hostname_in_prompt="@\h"
 fi
 
