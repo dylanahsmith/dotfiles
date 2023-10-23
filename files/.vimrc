@@ -1,3 +1,6 @@
+scriptencoding utf-8
+set encoding=utf-8
+
 set nocompatible
 set nomodeline
 set backspace=indent,eol,start
