@@ -1,15 +1,14 @@
 # Dependancy
 
 I use [GNU stow](http://www.gnu.org/software/stow/) to symlink my dotfiles
-into place, so install it first.
+into place. The install script will try to install it with `brew install` or
+`sudo apt-get install` if it doesn't find it available.
 
-E.g. `brew install stow` or `sudo apt-get install stow`
-
-# Install
+## Install
 
 ```
 cd ~
 git clone https://github.com/dylanahsmith/dotfiles.git
 cd dotfiles
-stow files
+./install
 ```
