@@ -1,13 +1,20 @@
 #!/bin/bash
 
-set -xe
+set -xeuo pipefail
 
 repo_dir=$(dirname "${BASH_SOURCE[0]}")
 
-if type apt-get > /dev/null 2>&1; then
-  sudo apt-get install -y stow exuberant-ctags
-elif type brew > /dev/null 2>&1; then
-  brew install stow
+have_exe() {
+  type "$1" > /dev/null 2>&1
+  return $?
+}
+
+if ! have_exe stow; then
+  if have_exe apt-get; then
+    sudo apt-get install -y stow
+  elif have_exe brew; then
+    brew install stow
+  fi
 fi
 
 cd "$repo_dir"
