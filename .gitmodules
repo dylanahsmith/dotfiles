@@ -13,3 +13,6 @@
 [submodule "files/.vim/bundle/Coqtail"]
 	path = files/.vim/bundle/Coqtail
 	url = https://github.com/whonore/Coqtail.git
+[submodule "files/.vim/bundle/vim-lsp"]
+	path = files/.vim/bundle/vim-lsp
+	url = https://github.com/prabirshrestha/vim-lsp.git
