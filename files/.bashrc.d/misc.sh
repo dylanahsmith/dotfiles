@@ -18,6 +18,9 @@ fi
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# Alias for debian based distros
+[ -x /usr/bin/batcat ] && alias bat=batcat
+
 if type ruby >/dev/null 2>&1; then
   chr() { ruby -e 'puts ARGV.map{|x|Integer(x)}.pack("U*")' "$@"; }
   hex() { ruby -e 'puts ARGV.map{ |x| "0x" + Integer(x).to_s(16) }' "$@"; }
