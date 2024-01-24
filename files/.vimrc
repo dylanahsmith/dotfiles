@@ -114,20 +114,26 @@ command! Go !go run %
 
 let g:ruby_indent_assignment_style = 'variable'
 
-if executable('rust-analyzer')
-  au User lsp_setup call lsp#register_server({
-        \   'name': 'Rust Language Server',
-        \   'cmd': {server_info->['rust-analyzer']},
-        \   'whitelist': ['rust'],
-        \ })
-endif
+" Avoid automatically running untrusted code so vim
+" can be used to review that code
+if getcwd() =~ "untrusted" || getcwd() =~? "downloads"
+  let g:lsp_auto_enable = 0
+else
+  if executable('rust-analyzer')
+    au User lsp_setup call lsp#register_server({
+          \   'name': 'Rust Language Server',
+          \   'cmd': {server_info->['rust-analyzer']},
+          \   'whitelist': ['rust'],
+          \ })
+  endif
 
-if executable('clangd')
-  au User lsp_setup call lsp#register_server({
-        \   'name': 'clangd',
-        \   'cmd': {server_info->['clangd']},
-        \   'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
+  if executable('clangd')
+    au User lsp_setup call lsp#register_server({
+          \   'name': 'clangd',
+          \   'cmd': {server_info->['clangd']},
+          \   'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+          \ })
+  endif
 endif
 
 function! s:on_lsp_buffer_enabled() abort
