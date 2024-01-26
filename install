@@ -17,6 +17,8 @@ if ! have_exe stow; then
   fi
 fi
 
+mkdir -p ~/bin
+
 cd "$repo_dir"
 git submodule update --init --recursive
 stow --target="$HOME" files
@@ -25,4 +27,24 @@ cp -nr defaults/.[a-z]* ~
 
 if ! grep -q '^. ~/.bashrc.d/.all.sh$' ~/.bashrc; then
   printf '\n. ~/.bashrc.d/.all.sh\n' >> ~/.bashrc
+fi
+
+if ! have_exe diff-highlight; then
+  if have_exe dpkg && test -f /usr/share/doc/git/contrib/diff-highlight/diff-highlight; then
+    cat <<-EOF > ~/bin/diff-highlight
+	#!/bin/sh
+	exec /usr/bin/perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight
+	EOF
+    chmod +x ~/bin/diff-highlight
+  elif have_exe brew; then
+    diff_highlight_path="$(brew --prefix git)/share/git-core/contrib/diff-highlight/diff-highlight"
+    if [ -x "$diff_highlight_path" ]; then
+      ln -s "$diff_highlight_path" ~/bin/diff-highlight
+    fi
+  fi
+  if [ -x ~/bin/diff-highlight ]; then
+    git config --file ~/.gitconfig-local pager.log "diff-highlight | less"
+    git config --file ~/.gitconfig-local pager.show "diff-highlight | less"
+    git config --file ~/.gitconfig-local pager.diff "diff-highlight | less"
+  fi
 fi
