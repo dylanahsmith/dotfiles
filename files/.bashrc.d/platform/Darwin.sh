@@ -3,8 +3,18 @@ export LSCOLORS="ExGxFxDxCxegedabagacad"
 alias ldd='otool -L'
 alias open-ports='sudo lsof -iTCP -sTCP:LISTEN -P'
 
-if [ "$HOMEBREW_PREFIX" != "" ]; then
-  [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+if brew --prefix >/dev/null 2>&1; then
+  [[ -z "$HOMEBREW_PREFIX" ]] && eval "$(brew shellenv)"
+
+  if [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]]; then
+    . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+  fi
+  if [[ -x "$HOMEBREW_PREFIX/bin/less" ]]; then
+    export PAGER="$HOMEBREW_PREFIX/bin/less"
+  fi
+  if [[ -r "$HOMEBREW_PREFIX/opt/chruby/share/chruby/chruby.sh" ]]; then
+    . "$HOMEBREW_PREFIX/opt/chruby/share/chruby/chruby.sh"
+  fi
 fi
 
 find() {

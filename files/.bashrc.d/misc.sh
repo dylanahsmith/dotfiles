@@ -2,7 +2,7 @@
 # -R   output color escape sequences
 # -S   chop long lines
 # -M   long prompt
-export LESS="RSM"
+export LESS="-RSM"
 
 # More readable colors for man pages.
 if [ "$TERM" = "xterm" -o -n "$COLORTERM" ]; then
