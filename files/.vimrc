@@ -1,13 +1,11 @@
+source $VIMRUNTIME/defaults.vim
+
 scriptencoding utf-8
 set encoding=utf-8
 
-set nocompatible
 set nomodeline
-set backspace=indent,eol,start
 set title
 set number
-set ruler
-set showcmd
 set background=dark
 set noswapfile
 
@@ -18,23 +16,17 @@ set guioptions-=T
 set ignorecase
 set smartcase
 
-set incsearch
 set hlsearch
 set display=lastline
 set wildmode=longest,list,full
-set wildmenu
 set hidden
 
 set tags=./tags,../tags,../../tags,../../../tags,../../../../tags,../../../../../tags,tags
 
 vnoremap . :norm.<CR>
 map Y y$
-map Q gq
 set formatprg=fmt
 
-if has("syntax")
-  syntax on
-endif
 if has("mouse")
   set mouse=a
 endif
@@ -56,8 +48,6 @@ if exists(":function")
 end
 
 if has("user_commands")
-  command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-                  \ | wincmd p | diffthis
   command! -nargs=1 UseSpaces set expandtab softtabstop=<args> shiftwidth=<args>
   command! -nargs=1 UseTabs set noexpandtab tabstop=<args> softtabstop=<args> shiftwidth=<args>
   command! -nargs=1 UseMixed set noexpandtab tabstop=8 softtabstop=<args> shiftwidth=<args>
@@ -72,11 +62,6 @@ if has("user_commands")
   highlight PmenuSel cterm=bold ctermbg=3
 
   highlight MatchParen cterm=underline ctermbg=NONE
-endif
-if has("autocmd")
-  filetype plugin indent on
-else
-  set autoindent
 endif
 
 if has("autocmd")
