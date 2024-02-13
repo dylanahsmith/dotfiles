@@ -64,25 +64,6 @@ if has("user_commands")
   highlight MatchParen cterm=underline ctermbg=NONE
 endif
 
-if has("autocmd")
-  function SetTitle()
-    " TODO: debug incompatible library version error (probably an issue with it using system ruby)
-    if 0 && has("ruby")
-      ruby system("printf '\033];#{VIM::evaluate('expand("%:t")')} [#{File.basename(`tty`.chomp)}]\a'")
-    elseif has("python")
-      python <<PYTHON
-import subprocess
-import os
-import vim
-title = os.path.basename(vim.current.buffer.name)
-subprocess.call(["printf", "\033];" + title + "\a"])
-PYTHON
-    endif
-  endfunction
-  auto BufEnter * call SetTitle()
-  auto BufFilePre * call SetTitle()
-endif
-
 " Change to the directory of the file being edited
 command! Cdf execute 'cd ' . expand("%:h")
 
